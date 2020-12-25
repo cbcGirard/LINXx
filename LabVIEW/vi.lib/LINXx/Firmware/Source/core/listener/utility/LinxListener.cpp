@@ -303,7 +303,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			if(commandPacketBuffer[6] > 31)
 			{
 				LinxDev->WifiSsidSize = 31;
-				LinxDev->NonVolatileWrite(NVS_WIFI_SSID_SIZE, 32);
+				LinxDev->NonVolatileWrite(NVS_WIFI_SSID_SIZE, 31);
 			}
 			else
 			{
@@ -319,6 +319,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			}
 			//add null terminator
 			LinxDev->NonVolatileWrite(NVS_WIFI_SSID+LinxDev->WifiSsidSize+1,0);
+			LinxDev->WifiSsid[LinxDev->WifiSsidSize+1]=0;
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
 			
@@ -329,7 +330,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			{
 				responsePacketBuffer[i+6] = LinxDev->WifiSsid[i];
 			}
-			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, LinxDev->WifiSsidSize, L_OK);
+			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, LinxDev->WifiSsidSize+1, L_OK);
 			break;
 			
 		case 0x001E: //Set Device WIFI Security Type
@@ -363,6 +364,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 				LinxDev->NonVolatileWrite(NVS_WIFI_PW+i, commandPacketBuffer[i+7]);    
 			}
 			//add null terminator
+			LinxDev->WifiPw[LinxDev->WifiPwSize+1]=0;
 			LinxDev->NonVolatileWrite(NVS_WIFI_PW+LinxDev->WifiPwSize+1, 0);    
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;

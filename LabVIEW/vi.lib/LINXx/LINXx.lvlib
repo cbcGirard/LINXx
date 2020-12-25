@@ -5,6 +5,7 @@
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">false</Property>
 	<Item Name="Private" Type="Folder">
+		<Item Name="Analog info.ctl" Type="VI" URL="../Private/Analog info.ctl"/>
 		<Item Name="Check IP Config.vi" Type="VI" URL="../Private/Check IP Config.vi"/>
 		<Item Name="Force reset.vi" Type="VI" URL="../Private/Force reset.vi"/>
 		<Item Name="Get AI Res.vi" Type="VI" URL="../Private/Get AI Res.vi"/>
