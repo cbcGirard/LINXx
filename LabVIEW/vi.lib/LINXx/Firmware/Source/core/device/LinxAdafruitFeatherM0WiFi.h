@@ -11,7 +11,6 @@
 
 #ifndef LINX_ADAFRUIT_FEATHERM0WIFI_H
 #define LINX_ADAFRUIT_FEATHERM0WIFI_H
-#include <FlashAsEEPROM.h>
 
 /****************************************************************************************
 **  Defines
@@ -47,9 +46,9 @@
 ****************************************************************************************/	
 #include "utility/LinxDevice.h"
 #include "utility/LinxWiringDevice.h"
-#include "utility/LinxAdafruitFeatherM0.h"
+#include "utility/LinxZero.h"
 	
-class LinxAdafruitFeatherM0WiFi : public LinxAdafruitFeatherM0
+class LinxAdafruitFeatherM0WiFi : public LinxZero
 {
 	public:	
 		/****************************************************************************************

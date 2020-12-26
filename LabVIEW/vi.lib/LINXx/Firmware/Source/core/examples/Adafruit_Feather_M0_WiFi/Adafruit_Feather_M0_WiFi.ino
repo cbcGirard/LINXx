@@ -13,6 +13,7 @@
 // Otherwise, set your network information in NetworkConfig.h
 #define PERMANENT_WIFI
 
+// If previous line uncommented, get network info from .h file
 #ifdef PERMANENT_WIFI
 #include "NetworkConfig.h"
 #endif
@@ -27,7 +28,7 @@
 //Include Device Specific Header From Sketch>>Import Library (In This Case LinxAdafruitFeatherM0WiFi.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library 
 #include <LinxAdafruitFeatherM0WiFi.h>
-#include <LinxFeatherWifiListener.h>
+#include <LinxWiFi101Listener.h>
  
 //Create A Pointer To The LINX Device Object We Instantiate In Setup()
 LinxAdafruitFeatherM0WiFi* LinxDevice;

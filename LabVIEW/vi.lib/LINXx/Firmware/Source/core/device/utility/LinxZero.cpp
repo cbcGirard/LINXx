@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX - PJRC family
+**  LINX - AdafruitFeatherM0 family
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -12,12 +12,12 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/
-#include "LinxPjrc.h"
+#include "LinxZero.h"
 
 /****************************************************************************************
 **  Constructors /  Destructor
 ****************************************************************************************/
-LinxPjrc::LinxPjrc()
+LinxZero::LinxZero()
 {
-	DeviceFamily = 0x03;	//PJRC Family Code
+	DeviceFamily = 0xFF;	//AdafruitFeatherM0 Family Code
 }

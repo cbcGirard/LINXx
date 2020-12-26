@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for PJRC family of devices
+**  LINX header for Arduino Zero family of devices
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -9,8 +9,8 @@
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_AdafruitFeatherM0_H
-#define LINX_AdafruitFeatherM0_H
+#ifndef LINX_Zero_H
+#define LINX_Zero_H
 
 
 /****************************************************************************************
@@ -18,8 +18,10 @@
 ****************************************************************************************/
 #include "LinxDevice.h"
 #include "LinxWiringDevice.h"
+#include <FlashAsEEPROM.h>
+
 	
-class LinxAdafruitFeatherM0 : public LinxWiringDevice
+class LinxZero : public LinxWiringDevice
 {
 	public:	
 		/****************************************************************************************
@@ -29,7 +31,7 @@ class LinxAdafruitFeatherM0 : public LinxWiringDevice
 		/****************************************************************************************
 		**  Constructors /  Destructor
 		****************************************************************************************/
-		LinxAdafruitFeatherM0();
+		LinxZero();
 		
 		/****************************************************************************************
 		**  Functions
@@ -47,4 +49,4 @@ class LinxAdafruitFeatherM0 : public LinxWiringDevice
 	
 };
 
-#endif //LINX_PJRC_H
+#endif //LINX_Zero_H

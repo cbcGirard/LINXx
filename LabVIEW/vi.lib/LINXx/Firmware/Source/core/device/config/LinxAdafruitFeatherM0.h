@@ -16,8 +16,12 @@
 	#define DEBUG_ENABLED -1
 	#define NUM_I2C_CHANS 2
 	#define NUM_SPI_CHANS 1
-	#define NUM_UART_CHANS 3
-	#define DEVICE_FAMILY 2
+	#define NUM_UART_CHANS 2
+	#define DEVICE_FAMILY 255
+
+	#define LINXWIFI
+
+	#define IS_M0
 
 	#define ARDUINO_VERSION 105
 		

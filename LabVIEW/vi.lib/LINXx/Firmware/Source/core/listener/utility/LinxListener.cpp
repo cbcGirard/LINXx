@@ -142,7 +142,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 			
 		//case 0x0001: //TODO Flush Linx Connection Buffer
-		case 0x0002: //TODO Reset
+		case 0x0002: //LINXx Reset
 		{
 			LinxDev->ResetTarget=(ResetWhat) commandPacketBuffer[6];
 			StatusResponse(commandPacketBuffer, responsePacketBuffer,L_OK);
@@ -278,10 +278,10 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 			
 		case 0x0019: //Get Device WIFI IP	
-			responsePacketBuffer[8] = ((LinxDev->WifiIp>>24) & 0xFF);                //WIFI IP MSB
-			responsePacketBuffer[7] = ((LinxDev->WifiIp>>16) & 0xFF);                //WIFI IP ...
-			responsePacketBuffer[6] = ((LinxDev->WifiIp>>8) & 0xFF);                 //WIFI IP ...
-			responsePacketBuffer[5] = ((LinxDev->WifiIp) & 0xFF);                       //WIFI IP LSB  
+			responsePacketBuffer[5] = ((LinxDev->WifiIp>>24) & 0xFF);                //WIFI IP MSB
+			responsePacketBuffer[6] = ((LinxDev->WifiIp>>16) & 0xFF);                //WIFI IP ...
+			responsePacketBuffer[7] = ((LinxDev->WifiIp>>8) & 0xFF);                 //WIFI IP ...
+			responsePacketBuffer[8] = ((LinxDev->WifiIp) & 0xFF);                       //WIFI IP LSB  
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, L_OK);
 			break;
 			

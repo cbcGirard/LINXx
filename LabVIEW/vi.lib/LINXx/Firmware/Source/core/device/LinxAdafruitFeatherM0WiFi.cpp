@@ -16,7 +16,7 @@
 
 #include "utility/LinxDevice.h"
 #include "utility/LinxWiringDevice.h"
-#include "utility/LinxAdafruitFeatherM0.h"
+#include "utility/LinxZero.h"
 #include "LinxAdafruitFeatherM0WiFi.h"
 
 /****************************************************************************************

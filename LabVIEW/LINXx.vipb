@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="2020.1" Created_Date="2020-12-23 22:48:42" Modified_Date="2020-12-24 20:54:49" Creator="chris" Comments="" ID="723676147a982909017273790aaad766">
+<VI_Package_Builder_Settings Version="2020.1" Created_Date="2020-12-23 22:48:42" Modified_Date="2020-12-24 21:03:48" Creator="chris" Comments="" ID="b5bc9d23529bc7c73922451f5405f7e6">
   <Library_General_Settings>
     <Package_File_Name>CBC_Girard_lib_LINXx</Package_File_Name>
-    <Library_Version>0.1.0.4</Library_Version>
+    <Library_Version>0.1.0.5</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\LV_package</Library_Output_Folder>
