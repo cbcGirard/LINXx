@@ -366,7 +366,14 @@ void  LinxDevice::DebugPrintln(long n, int base)
 	#endif
 }
 
+int LinxDevice::BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
 
+int LinxDevice::Reset(ResetWhat target) {
+	return L_FUNCTION_NOT_SUPPORTED;
+}
 /****************************************************************************************
 **  Private Functions
 ****************************************************************************************/

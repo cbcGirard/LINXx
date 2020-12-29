@@ -65,6 +65,7 @@ Servo* LinxAdafruitFeatherM0WiFi::m_Servos[NUM_SERVO_CHANS] =	{0, 0, 0, 0, 0, 0,
 ****************************************************************************************/
 LinxAdafruitFeatherM0WiFi::LinxAdafruitFeatherM0WiFi()
 {
+	WifiStatus=WL_IDLE_STATUS;
 	//Family ID Set At Family Level
 	DeviceId = 0xFF;	//temp
 	DeviceNameLen = DEVICE_NAME_LEN;	 
@@ -175,7 +176,7 @@ void LinxAdafruitFeatherM0WiFi::HandleNVM(void) {
 		//timer overflowed
 		_sinceLastNVMEWrite=0;
 	}
-	if (tnow-_sinceLastNVMEWrite>5000) {
+	if (tnow-_sinceLastNVMEWrite>1000) {
 		EEPROM.commit();
 	}
 
@@ -186,4 +187,47 @@ void LinxAdafruitFeatherM0WiFi::NonVolatileWrite(int address, unsigned char data
 
 	// update time of write
 	_sinceLastNVMEWrite=millis();
+}
+
+int LinxAdafruitFeatherM0WiFi::BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response){
+	int status=L_OK;
+
+	switch (command) {
+		case 0x00:// get WiFi connection status
+		*numResponseBytes=1;
+		*response=WiFi.status();
+		break;
+		// case 0x01:// 
+		// break;
+		// case 0x00://
+		// break;
+		// case 0x00://
+		// break;
+		// case 0x00://
+		// break;
+		// case 0x00://
+		// break;
+		// case 0x00://
+		// break;
+		default:
+		status=L_FUNCTION_NOT_SUPPORTED;
+	}
+	return status;
+}
+
+int LinxAdafruitFeatherM0WiFi::Reset(ResetWhat target) {
+	int status=L_FUNCTION_NOT_SUPPORTED;
+	switch (target) {
+		case LRESET_ALL:
+		ResetTarget=LRESET_NONE;
+		NVIC_SystemReset();
+		break;
+		case LRESET_TCP:
+		ResetTarget=target;
+		status=L_OK;
+		break;
+		default:
+		ResetTarget=LRESET_NONE;
+	}
+	return status;
 }

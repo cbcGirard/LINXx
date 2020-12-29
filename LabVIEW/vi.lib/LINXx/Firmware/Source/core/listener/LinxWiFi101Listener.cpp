@@ -73,14 +73,20 @@ int LinxWiFi101Listener::Start(LinxDevice* linxDev)
 {
 		
 	LinxDev = linxDev;
-
-		recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	int ssidSize = LinxDev->NonVolatileRead(NVS_WIFI_SSID_SIZE);
+	if ((ssidSize==0)|(ssidSize=255)){
+		//NVM not initialized; loop back to start
+		State=EXIT;
+		return L_OK;
+	}
+	else {
+	//ok, continue booting
+	recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
 	sendBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
 	
 	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With NVS Data");
 	
 	//Load Stored WIFI Values
-	int ssidSize = LinxDev->NonVolatileRead(NVS_WIFI_SSID_SIZE);
 	ssidSize=(ssidSize>32)?32:ssidSize;
 	for(int i=0; i<ssidSize; i++)
 	{
@@ -103,6 +109,7 @@ int LinxWiFi101Listener::Start(LinxDevice* linxDev)
 	State = START;
 	
 	return L_OK;
+	}
 }
 
 int LinxWiFi101Listener::Start(LinxDevice* linxDev, unsigned char ip3, unsigned char ip2, unsigned char ip1, unsigned char ip0, unsigned short port)
@@ -130,14 +137,21 @@ int LinxWiFi101Listener::Restart(LinxDevice* linxDev)
 {
 		
 	LinxDev = linxDev;
-
-		recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	//Load Stored WIFI Values
+	int ssidSize = LinxDev->WifiSsidSize;
+	if ((ssidSize==0)|(ssidSize=255)){
+		//NVM not initialized; loop back to start
+		State=EXIT;
+		return L_OK;
+	}
+	else {
+	//ok, continue booting
+	recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
 	sendBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
 	
 	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With NVS Data");
 	
-	//Load Stored WIFI Values
-	int ssidSize = LinxDev->WifiSsidSize;
+	
 	ssidSize=(ssidSize>32)?32:ssidSize;
 	for(int i=0; i<ssidSize; i++)
 	{
@@ -160,6 +174,7 @@ int LinxWiFi101Listener::Restart(LinxDevice* linxDev)
 	State = START;
 	
 	return L_OK;
+	}
 }
  
 int LinxWiFi101Listener::PrintWifiInfo()
@@ -248,7 +263,7 @@ int LinxWiFi101Listener::Init()
 	if (LinxWifiIp) {
 		// if IP == 0.0.0.0 then use DHCP
 		IPAddress ip(LinxWifiIp>>24 & 0xFF, LinxWifiIp>>16 & 0xFF, LinxWifiIp>>8 & 0xFF, LinxWifiIp & 0xFF);
-		WiFi.config(ip, IPAddress(0,0,0,0), IPAddress(0,0,0,0), IPAddress(255,255,255,255));
+		WiFi.config(ip);
 	}
 		
 	switch(LinxWifiSecurity)
@@ -287,12 +302,15 @@ int LinxWiFi101Listener::Init()
 		LinxDev->DebugPrintln("Connected To Wifi Network");
 		m_pWifiSvr=new WiFiServer(LinxWifiPort);
 		LinxWifiIp= WiFi.localIP();
-		LinxDev->WifiIp=LinxWifiIp;
+
+		//flip endianness
+		LinxDev->WifiIp=((LinxWifiIp>>24)&0xFF)|((LinxWifiIp>>8)&0xFF00)|((LinxWifiIp<<8)&0xFF0000)|((LinxWifiIp<<24)&0xFF000000);
 		
 		//Start the server
 		m_pWifiSvr->begin();
 		State = AVAILABLE;
 	}
+	LinxDev->WifiStatus=WiFi.status();
 
 	PrintWifiInfo();
 }

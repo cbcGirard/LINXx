@@ -19,8 +19,6 @@
 	#define NUM_UART_CHANS 2
 	#define DEVICE_FAMILY 255
 
-	#define LINXWIFI
-
 	#define IS_M0
 
 	#define ARDUINO_VERSION 105

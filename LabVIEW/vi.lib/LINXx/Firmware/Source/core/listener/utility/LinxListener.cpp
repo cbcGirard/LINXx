@@ -128,6 +128,14 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		status = customCommands[command - 0xFC00](commandPacketBuffer[1]-7, commandPacketBuffer+6, &numResponseBytes, responsePacketBuffer+5);
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numResponseBytes, status); 
 	}
+	else if (command >= 0xF800)
+	{
+		// Board-specific commands
+		unsigned char numResponseBytes = 0;
+		status = LinxDev->BoardCommands((unsigned char) (command - 0xF800),commandPacketBuffer[1]-7, commandPacketBuffer+6, &numResponseBytes, responsePacketBuffer+5);
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numResponseBytes, status); 
+
+	}
 	else
 	{
 		//Standard Commands
@@ -144,7 +152,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		//case 0x0001: //TODO Flush Linx Connection Buffer
 		case 0x0002: //LINXx Reset
 		{
-			LinxDev->ResetTarget=(ResetWhat) commandPacketBuffer[6];
+			status=LinxDev->Reset((ResetWhat) commandPacketBuffer[6]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer,L_OK);
 			break;
 		}
@@ -396,10 +404,16 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->ServoChans, LinxDev->NumServoChans, L_OK);
 			break;
 		
-		//---0x0026 to 0x003F Reserved---
+		case 0x0026: //LINXx Get WiFi status
+		{
+			responsePacketBuffer[5] = LinxDev->WifiStatus;
+			PacketizeAndSend(commandPacketBuffer,responsePacketBuffer,1,status);
+			break;
+		}
+		//---0x0027 to 0x003F Reserved---
 		
 		/****************************************************************************************
-		**  Digital I/O
+		** Digital I/O
 		****************************************************************************************/	
 		//case 0x0040: //TODO Set Pin Mode
 		
@@ -447,7 +461,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		//---0x0045 to 0x005F Reserved---
 		
 		/****************************************************************************************
-		**  Analog I/O
+		** Analog I/O
 		****************************************************************************************/	
 		case 0x0060: //Set AI Ref Voltage
 		{			
@@ -466,7 +480,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 			
 		//case 0x0062: //TODO Set AI Resolution
-		case 0x0063: //TODO Get AI Resolution
+		case 0x0063: //LINXx Get AI Resolution
 		{
 			responsePacketBuffer[5]=(LinxDev->AiResolution);
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 1, status); 
@@ -490,7 +504,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		}
 		
-		case 0x0065: //Analog Write
+		case 0x0065: //LINXx Analog Write
 		{
 			status=LinxDev->AnalogWrite(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[7+commandPacketBuffer[6]]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
@@ -498,7 +512,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		}
 		
 		//case 0x0066: //Set AO Ref Voltage
-		case 0x0067: //Get AO Ref Voltage
+		case 0x0067: //LINXx AO Ref Voltage
 		{
 			responsePacketBuffer[5] = (LinxDev->AoRefSet>>24) & 0xFF;		//AIREF MSB
 			responsePacketBuffer[6] = (LinxDev->AoRefSet>>16) & 0xFF;		//...
@@ -509,7 +523,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		}
 		
 		//case 0x0068: //Set AO Resolution
-		case 0x0069: //Get AO Resolution
+		case 0x0069: //LINXx AO Resolution
 		{
 			responsePacketBuffer[5]=(LinxDev->AoResolution);
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 1, status); 
@@ -534,6 +548,8 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		
 		//case 0x0084: //TODO PWM Close	
 		
+		//---0x0085 to 0x009F Reserved---
+
 		/****************************************************************************************
 		** QE
 		****************************************************************************************/		
@@ -683,7 +699,8 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		}
 		
-		//---0x0085 to 0x009F Reserved---
+		//---0x0108 to 0x01FF Reserved---
+
 		
 		/****************************************************************************************
 		** CAN
@@ -731,6 +748,8 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			status = LinxDev->ServoClose((commandPacketBuffer[1]-7), &commandPacketBuffer[6]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
+
+		//---0x0143 to 0x015F Reserved---
 		
 		/****************************************************************************************
 		** WS2812
@@ -755,7 +774,24 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			status = LinxDev->Ws2812Close();
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
-		
+
+		//---0x0165 to 0x017F Reserved
+
+		/****************************************************************************************
+		** Unused
+		****************************************************************************************/	
+	
+		//---0x0180 to 0xF7FF Reserved
+
+
+		/****************************************************************************************
+		** Board-specific commands
+		****************************************************************************************/	
+	
+		//---0xF800 to 0xF8FF LINXx, Implemented by board
+		//---0xF800 to 0xFBFF Reserved
+
+
 		/****************************************************************************************
 		** Default
 		****************************************************************************************/	

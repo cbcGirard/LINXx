@@ -6,19 +6,31 @@
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">false</Property>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Analog info.ctl" Type="VI" URL="../Private/Analog info.ctl"/>
-		<Item Name="Check IP Config.vi" Type="VI" URL="../Private/Check IP Config.vi"/>
 		<Item Name="Force reset.vi" Type="VI" URL="../Private/Force reset.vi"/>
+		<Item Name="Format Command to md.vi" Type="VI" URL="../Private/Format Command to md.vi"/>
 		<Item Name="Get AI Res.vi" Type="VI" URL="../Private/Get AI Res.vi"/>
 		<Item Name="Get AO Ref.vi" Type="VI" URL="../Private/Get AO Ref.vi"/>
 		<Item Name="Get AO Res.vi" Type="VI" URL="../Private/Get AO Res.vi"/>
 		<Item Name="Get Project Paths.vi" Type="VI" URL="../Private/Get Project Paths.vi"/>
 		<Item Name="QuickFWCopy.vi" Type="VI" URL="../Private/QuickFWCopy.vi"/>
+		<Item Name="Rebuild Command Table.vi" Type="VI" URL="../Private/Rebuild Command Table.vi"/>
+		<Item Name="Reset Wifi.vi" Type="VI" URL="../Private/Reset Wifi.vi"/>
+		<Item Name="Start WiFi with DHCP.vi" Type="VI" URL="../Private/Start WiFi with DHCP.vi"/>
+		<Item Name="Start WiFi.vi" Type="VI" URL="../Private/Start WiFi.vi"/>
 	</Item>
 	<Item Name="Public" Type="Folder">
+		<Property Name="NI.SortType" Type="Int">3</Property>
+		<Item Name="Board-specific" Type="Folder">
+			<Item Name="FeatherM0" Type="Folder">
+				<Item Name="WiFi101 Status.ctl" Type="VI" URL="../Private/WiFi101 Status.ctl"/>
+			</Item>
+		</Item>
 		<Item Name="Get AIO Info.vi" Type="VI" URL="../Public/Get AIO Info.vi"/>
 		<Item Name="Get WiFi Info.vi" Type="VI" URL="../Public/Get WiFi Info.vi"/>
 		<Item Name="Reset Target.ctl" Type="VI" URL="../Public/Reset Target.ctl"/>
 		<Item Name="Reset.vi" Type="VI" URL="../Public/Reset.vi"/>
 		<Item Name="Switch to WiFi.vi" Type="VI" URL="../Public/Switch to WiFi.vi"/>
+		<Item Name="Check WiFi status.vi" Type="VI" URL="../Public/FeatherM0/Check WiFi status.vi"/>
 	</Item>
+	<Item Name="Rebuild Lua filter.vi" Type="VI" URL="../Private/Rebuild Lua filter.vi"/>
 </Library>

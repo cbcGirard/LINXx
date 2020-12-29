@@ -47,6 +47,7 @@
 #include "utility/LinxDevice.h"
 #include "utility/LinxWiringDevice.h"
 #include "utility/LinxZero.h"
+#include "WiFi101.h"
 	
 class LinxAdafruitFeatherM0WiFi : public LinxZero
 {
@@ -106,7 +107,8 @@ class LinxAdafruitFeatherM0WiFi : public LinxZero
 		// overload these
 
 		void NonVolatileWrite(int address, unsigned char data);		
-		
+		int BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response);
+		int Reset(ResetWhat target);
 	private:
 		/****************************************************************************************
 		**  Variables

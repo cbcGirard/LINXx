@@ -15,10 +15,8 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
-//This Makes It Easy For IDE Users To Define Necessary Settings In One Place
-//When Using Make Files Define LINXCONFIG To Ignore Config.h File
-#ifndef LINXCONFIG
-	#include "../config/LinxConfig.h"
+#ifndef LINX_CONFIG
+#include "../config/LinxConfig.h"
 #endif
 
 /****************************************************************************************
@@ -235,8 +233,10 @@ class LinxDevice
 		
 		unsigned long serialInterfaceMaxBaud;
 
+		//LINXx values
 		ResetWhat ResetTarget=LRESET_NONE;
-		
+		unsigned char WifiStatus=0xFF;
+
 		/****************************************************************************************
 		**  Constructors/Destructor
 		****************************************************************************************/
@@ -350,6 +350,9 @@ class LinxDevice
 		virtual void DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer);
 				
 		// management
+		virtual int BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response);
+		virtual int Reset(ResetWhat target);
+
 
 	private:
 		/****************************************************************************************

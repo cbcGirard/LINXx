@@ -230,7 +230,9 @@ class LinxDevice
 		
 		unsigned long serialInterfaceMaxBaud;
 
+		//LINXx values
 		ResetWhat ResetTarget=LRESET_NONE;
+		unsigned char WifiStatus=0xFF;
 		
 		/****************************************************************************************
 		**  Constructors/Destructor
@@ -345,6 +347,8 @@ class LinxDevice
 		virtual void DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer);
 				
 		// management
+		virtual int BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response);
+		virtual int Reset(ResetWhat target);
 
 	private:
 		/****************************************************************************************
