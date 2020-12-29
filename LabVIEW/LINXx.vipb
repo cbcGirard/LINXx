@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="2020.1" Created_Date="2020-12-23 22:48:42" Modified_Date="2020-12-28 20:50:24" Creator="chris" Comments="" ID="9c9afa68c87ee3d1284383dcdb6137b7">
+<VI_Package_Builder_Settings Version="2020.1" Created_Date="2020-12-23 22:48:42" Modified_Date="2020-12-28 21:07:21" Creator="chris" Comments="" ID="9553cfc3e3a4c66773e04b445567cbff">
   <Library_General_Settings>
     <Package_File_Name>CBC_Girard_lib_LINXx</Package_File_Name>
-    <Library_Version>0.1.0.7</Library_Version>
+    <Library_Version>0.1.0.8</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\LV_package</Library_Output_Folder>
@@ -307,7 +307,7 @@ Known issues:
         <Path>vi.lib\LINXx\Public\FeatherM0</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>37B3F3C722A7528A6261BAD0CC22428D</GUID>
+      <GUID>07C746D2D67E87A1A19ED9AF7E3CD8F7</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>0</Parent_Palette_Index>
@@ -342,7 +342,7 @@ Known issues:
         <Path>vi.lib\LINXx\Public\FeatherM0\Check WiFi status.vi</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>C8BE22D5B9C8FF78DA2C4466EEDCB7B5</GUID>
+      <GUID>DF526BF6897A4CE4265BE9FB8599857C</GUID>
     </Functions_Palette_Data>
   </Library_Palette_Definition>
 </VI_Package_Builder_Settings>

@@ -68,6 +68,24 @@ int LinxWiFi101Listener::SetPassphrase(const char pw[])
 	return L_OK;
 }
 
+int LinxWiFi101Listener::_UpdateDev(int ssidSize, int pwSize) {
+
+	LinxDev->WifiIp=LinxWifiIp;
+	LinxDev->WifiPort=LinxWifiPort;
+	LinxDev->WifiSsidSize=ssidSize;
+	LinxDev->WifiPwSize=pwSize;
+	LinxDev->WifiSecurity=LinxWifiSecurity;
+
+	for (int ii=0; ii<ssidSize; ii++) {
+		LinxDev->WifiSsid[ii]=LinxWifiSsid[ii];
+	}
+	for(int ii=0; ii<pwSize; ii++){
+		LinxDev->WifiPw[ii]=LinxWifiPw[ii];
+	}
+
+	return L_OK;
+}
+
 //Start With IP And Port Saved In NVS
 int LinxWiFi101Listener::Start(LinxDevice* linxDev)
 {
@@ -106,6 +124,9 @@ int LinxWiFi101Listener::Start(LinxDevice* linxDev)
 	LinxWifiIp = LinxDev->NonVolatileRead(NVS_WIFI_IP)<<24 | LinxDev->NonVolatileRead(NVS_WIFI_IP+1)<<16 | LinxDev->NonVolatileRead(NVS_WIFI_IP+2)<<8 | LinxDev->NonVolatileRead(NVS_WIFI_IP+3);
 	LinxWifiPort = (LinxDev->NonVolatileRead(NVS_WIFI_PORT) << 8) +  (LinxDev->NonVolatileRead(NVS_WIFI_PORT+1)) ;
 
+	_UpdateDev(ssidSize, pwSize);
+
+
 	State = START;
 	
 	return L_OK;
@@ -124,6 +145,8 @@ int LinxWiFi101Listener::Start(LinxDevice* linxDev, unsigned char ip3, unsigned 
 
 	LinxWifiIp = ip3<<24 | ip2<<16 | ip1<< 8 | ip0;
 	LinxWifiPort = port;
+
+	_UpdateDev(32,64);
 	
 	State = START;
 	
@@ -313,6 +336,7 @@ int LinxWiFi101Listener::Init()
 	LinxDev->WifiStatus=WiFi.status();
 
 	PrintWifiInfo();
+	return L_OK;
 }
 
 

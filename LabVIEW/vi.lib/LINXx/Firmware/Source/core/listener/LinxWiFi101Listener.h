@@ -67,6 +67,7 @@ class LinxWiFi101Listener : public LinxListener
 		virtual int SetSsid(const char ssid[]);
 		virtual int SetSecurity(SecurityType securityType);
 		virtual int SetPassphrase(const char pw[]);
+
 		
 		virtual int Start(LinxDevice* linxDev);
 		virtual int Start(LinxDevice* linxDev, unsigned char ip3, unsigned char ip2, unsigned char ip1, unsigned char ip0, unsigned short port);
@@ -92,7 +93,8 @@ class LinxWiFi101Listener : public LinxListener
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-	
+		virtual int _UpdateDev(int ssidSize, int pwSize);
+
 };
 
 extern LinxWiFi101Listener LinxWifiConnection;
