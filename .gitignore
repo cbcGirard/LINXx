@@ -1,4 +1,8 @@
 fw_tst/*
+
+#package
+*.vip
+
 # Libraries
 *.lvlibp
 *.llb
