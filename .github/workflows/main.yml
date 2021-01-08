@@ -1,16 +1,16 @@
 # This is a basic workflow to help you get started with Actions
+# modified from https://github.com/satu0king/Github-Documentation-With-Doxygen
 
-name: Autodox
+name: Doxygen Action
 
-# Controls when the action will run. 
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
+  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -20,24 +20,21 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-          
-      - name: Doxygen Action
-        # You may pin to the exact commit or the version.
-        # uses: mattnotmitt/doxygen-action@26c5585d9d0077c5c6f6c700bc6434ef03956fd4
-        uses: mattnotmitt/doxygen-action@v1.2.1
-        with:
-          # Path to Doxyfile
-          doxyfile-path: ../../LabVIEW/vi.lib/LINXx/Firmware/Doxyfile # default is ./Doxyfile
-          # Working directory
-          working-directory: ../../LabVIEW/vi.lib/LINXx/Firmware/Doxyfile # default is .
-
-      - name: GitHub Pages
-        # You may pin to the exact commit or the version.
-        # uses: crazy-max/ghaction-github-pages@1510b11c0c2f843eafb8ff41b3da8c467c8d4a9f
-        uses: crazy-max/ghaction-github-pages@v2.2.0
-        with:
-
-          # Build directory to deploy
-          build_dir: ../../docs/html
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+        
+    - name: Doxygen Action
+      uses: mattnotmitt/doxygen-action@v1.1.0
+      with:
+        # Path to Doxyfile
+        doxyfile-path: "./LabVIEW/vi.lib/LINXx/Firmware" # default is ./Doxyfile
+        # Working directory
+        working-directory: "./LabVIEW/vi.lib/LINXx/Firmware" # default is .
+    
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # Default Doxyfile build documentation to html directory. 
+        # Change the directory if changes in Doxyfile
+        publish_dir: ./html
