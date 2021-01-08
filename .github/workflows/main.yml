@@ -29,12 +29,10 @@ jobs:
         uses: mattnotmitt/doxygen-action@v1.2.1
         with:
           # Path to Doxyfile
-          doxyfile-path: ./Doxyfile
+          doxyfile-path: ./Doxyfile-web
           # Working directory
           working-directory: LabVIEW/vi.lib/LINXx/Firmware
 
-      - run: ls ./docs/html
-      - run: find . -name Doxyfile
 
       - name: GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2.2.0

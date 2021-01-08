@@ -22,5 +22,5 @@ fw_tst/*
 .cache/
 
 # doc stuff
-docs/html/*
+doxybuild/*
 *.html
