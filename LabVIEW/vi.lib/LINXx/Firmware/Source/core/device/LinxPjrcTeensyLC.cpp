@@ -1,10 +1,10 @@
 /****************************************************************************************
-**  LINX AdafruitFeatherM0 code
+**  LINX PJRC Teensy LC code
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Modified from Sam Kristoff's library by CBC Girard
+**  Written By Sam Kristoff, modified by CBC Girard
 **
 ** BSD2 License.
 ****************************************************************************************/	
@@ -16,61 +16,60 @@
 
 #include "utility/LinxDevice.h"
 #include "utility/LinxWiringDevice.h"
-#include "utility/LinxZero.h"
-#include "LinxAdafruitFeatherM0WiFi.h"
+#include "utility/LinxPjrc.h"
+#include "LinxPjrcTeensyLC.h"
 
 /****************************************************************************************
 **  Member Variables
 ****************************************************************************************/
 //System
-const unsigned char LinxAdafruitFeatherM0WiFi::m_DeviceName[DEVICE_NAME_LEN] = "Adafruit Feather M0 Wifi";
+const unsigned char LinxPjrcTeensyLC::m_DeviceName[DEVICE_NAME_LEN] = "PJRC Teensy LC";
 
 //AI
-const unsigned char LinxAdafruitFeatherM0WiFi::m_AiChans[NUM_AI_CHANS] = {14, 15, 16, 17, 18, 19, 45}; 
-const unsigned long LinxAdafruitFeatherM0WiFi::m_AiRefIntVals[NUM_AI_INT_REFS] = {};
-const int LinxAdafruitFeatherM0WiFi::m_AiRefCodes[NUM_AI_INT_REFS] = {};
+// const unsigned char LinxPjrcTeensyLC::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}; 
+const unsigned char LinxPjrcTeensyLC::m_AiChans[NUM_AI_CHANS] = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+const unsigned long LinxPjrcTeensyLC::m_AiRefIntVals[NUM_AI_INT_REFS] = {};
+const int LinxPjrcTeensyLC::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 
 //AO
-const unsigned char LinxAdafruitFeatherM0WiFi::m_AoChans[NUM_AO_CHANS]= {DAC0};
-const unsigned long LinxAdafruitFeatherM0WiFi::m_AoRefIntVals[NUM_AO_INT_REFS]= {};
-const int LinxAdafruitFeatherM0WiFi::m_AoRefCodes[NUM_AO_INT_REFS]={};
+const unsigned char LinxPjrcTeensyLC::m_AoChans[NUM_AO_CHANS]= {26};
+const unsigned long LinxPjrcTeensyLC::m_AoRefIntVals[NUM_AO_INT_REFS] = {};
+const int LinxPjrcTeensyLC::m_AoRefCodes[NUM_AO_INT_REFS] = {};
 
 //DIGITAL
-const unsigned char LinxAdafruitFeatherM0WiFi::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}; 
+const unsigned char LinxPjrcTeensyLC::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}; 
 
 //PWM
-const unsigned char LinxAdafruitFeatherM0WiFi::m_PwmChans[NUM_PWM_CHANS] = {5, 6, 9, 10, 11, 12, 13}; 
+const unsigned char LinxPjrcTeensyLC::m_PwmChans[NUM_PWM_CHANS] = {3, 4, 5, 6, 9, 20, 21, 22, 23, 25, 32}; 
 
 //QE
 //None
 
 //SPI
-const unsigned char LinxAdafruitFeatherM0WiFi::m_SpiChans[NUM_SPI_CHANS] = {0};
+const unsigned char LinxPjrcTeensyLC::m_SpiChans[NUM_SPI_CHANS] = {0,1};
 /** @todo verify */
-unsigned long LinxAdafruitFeatherM0WiFi::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {8000000, 4000000, 2000000, 1000000, 500000, 250000, 125000};
-int LinxAdafruitFeatherM0WiFi::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {SPI_CLOCK_DIV2, SPI_CLOCK_DIV4, SPI_CLOCK_DIV8, SPI_CLOCK_DIV16, SPI_CLOCK_DIV32, SPI_CLOCK_DIV64, SPI_CLOCK_DIV128};
+unsigned long LinxPjrcTeensyLC::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {8000000, 4000000, 2000000, 1000000, 500000, 250000, 125000};
+int LinxPjrcTeensyLC::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {SPI_CLOCK_DIV2, SPI_CLOCK_DIV4, SPI_CLOCK_DIV8, SPI_CLOCK_DIV16, SPI_CLOCK_DIV32, SPI_CLOCK_DIV64, SPI_CLOCK_DIV128};
 
 //I2C
-unsigned char LinxAdafruitFeatherM0WiFi::m_I2cChans[NUM_I2C_CHANS] = {0, 1};
-unsigned char LinxAdafruitFeatherM0WiFi::m_I2cRefCount[NUM_I2C_CHANS];			
+unsigned char LinxPjrcTeensyLC::m_I2cChans[NUM_I2C_CHANS] = {0, 1};
+unsigned char LinxPjrcTeensyLC::m_I2cRefCount[NUM_I2C_CHANS];			
 
 //UART
-unsigned char LinxAdafruitFeatherM0WiFi::m_UartChans[NUM_UART_CHANS] = {0,1};
-
+unsigned char LinxPjrcTeensyLC::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3};
 /** @todo verify */
-unsigned long LinxAdafruitFeatherM0WiFi::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200};
+unsigned long LinxPjrcTeensyLC::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200};
 
 //SERVO
-Servo* LinxAdafruitFeatherM0WiFi::m_Servos[NUM_SERVO_CHANS] =	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};		//Initialize To Null Pointers
+Servo* LinxPjrcTeensyLC::m_Servos[NUM_SERVO_CHANS] =	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};		//Initialize To Null Pointers
 
 /****************************************************************************************
 **  Constructors /  Destructor
 ****************************************************************************************/
-LinxAdafruitFeatherM0WiFi::LinxAdafruitFeatherM0WiFi()
+LinxPjrcTeensyLC::LinxPjrcTeensyLC()
 {
-	WifiStatus=WL_IDLE_STATUS;
 	//Family ID Set At Family Level
-	DeviceId = 0x01;
+	DeviceId = 0x04;	//Teensy LC
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
@@ -116,7 +115,6 @@ LinxAdafruitFeatherM0WiFi::LinxAdafruitFeatherM0WiFi()
 
 	AoRefExtMin=0;
 	AoRefExtMax=3300000;
-
 	
 	//PWM
 	NumPwmChans = NUM_PWM_CHANS;
@@ -162,7 +160,7 @@ LinxAdafruitFeatherM0WiFi::LinxAdafruitFeatherM0WiFi()
 }
 
 //Destructor
-LinxAdafruitFeatherM0WiFi::~LinxAdafruitFeatherM0WiFi()
+LinxPjrcTeensyLC::~LinxPjrcTeensyLC()
 {
 	//Handle Any Device Clean Up Here.
 	//UartClose();
@@ -173,36 +171,7 @@ LinxAdafruitFeatherM0WiFi::~LinxAdafruitFeatherM0WiFi()
 ****************************************************************************************/
 
 /**
- * @brief Commit to flash memory if no new writes in past 1 second
- * 
- */
-void LinxAdafruitFeatherM0WiFi::HandleNVM(void) {
-	int tnow=millis();
-	if (tnow<_sinceLastNVMEWrite) {
-		//timer overflowed
-		_sinceLastNVMEWrite=0;
-	}
-	if (tnow-_sinceLastNVMEWrite>1000) {
-		EEPROM.commit();
-	}
-
-}
-
-/**
- * @brief Override to include NVM delayed commit
- * 
- * @param address 
- * @param data 
- */
-void LinxAdafruitFeatherM0WiFi::NonVolatileWrite(int address, unsigned char data) {
-	EEPROM.write(address,data);
-
-	// update time of write
-	_sinceLastNVMEWrite=millis();
-}
-
-/**
- * @brief Handle board-specific commands
+ * @brief board-specific commands
  * 
  * @param command 
  * @param numInputBytes 
@@ -211,28 +180,24 @@ void LinxAdafruitFeatherM0WiFi::NonVolatileWrite(int address, unsigned char data
  * @param response 
  * @return int 
  */
-int LinxAdafruitFeatherM0WiFi::BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response){
+int LinxPjrcTeensyLC::BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response){
 	int status=L_OK;
 
 	switch (command) {
-		//* @todo Get battery voltage, power management functions (sleep, WiFi sleep, etc)
-		case 0x00:
-		// *numResponseBytes=2;
-		// int battVal=(analogRead(A7)<<1);
-		// response[0]=(battVal>>8)&0xFF;
-		// response[1]=(battVal)&0xFF;
+		case 0x00:// 
+		status=L_FUNCTION_NOT_SUPPORTED;
 		break;
-		// case 0x01:// set wifi power mode
+		// case 0x01:// 
 		// break;
-		// case 0x02:// 
+		// case 0x00://
 		// break;
-		// case 0x03://
+		// case 0x00://
 		// break;
-		// case 0x04://
+		// case 0x00://
 		// break;
-		// case 0x05://
+		// case 0x00://
 		// break;
-		// case 0x06://
+		// case 0x00://
 		// break;
 		default:
 		status=L_FUNCTION_NOT_SUPPORTED;
@@ -241,17 +206,29 @@ int LinxAdafruitFeatherM0WiFi::BoardCommands(unsigned char command, unsigned cha
 }
 
 /**
- * @brief Reset device or peripheral
+ * @brief Reset board or peripheral
  * 
  * @param target 
  * @return int 
  */
-int LinxAdafruitFeatherM0WiFi::Reset(ResetWhat target) {
+int LinxPjrcTeensyLC::Reset(ResetWhat target) {
 	int status=L_FUNCTION_NOT_SUPPORTED;
 	switch (target) {
 		case LRESET_ALL:
 		ResetTarget=LRESET_NONE;
-		NVIC_SystemReset();
+		//snippet source below
+		// From http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0337e/Cihcbadd.html
+		// Search for "0xE000ED0C"
+		// Original question http://forum.pjrc.com/threads/24304-_reboot_Teensyduino%28%29-vs-_restart_Teensyduino%28%29?p=35981#post35981
+		
+		//give time for any USB activity to finish
+		delay(250);
+
+		// Should restart Teensy 3, will also disconnect USB during restart
+		// 0000101111110100000000000000100
+		// Assert [2]SYSRESETREQ
+		*(uint32_t *)0xE00EDC0C=0x5FA0004;
+
 		break;
 		case LRESET_TCP:
 		ResetTarget=target;

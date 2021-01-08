@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for PJRC Teensy 3.1
+**  LINX header for PJRC Teensy LC
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -9,15 +9,15 @@
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_PJRC_TEENSY31_H
-#define LINX_PJRC_TEENSY31_H
+#ifndef LINX_PJRC_TEENSYLC_H
+#define LINX_PJRC_TEENSYLC_H
 
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/	
-#define DEVICE_NAME_LEN 16
+#define DEVICE_NAME_LEN 15
 
-#define NUM_AI_CHANS 21
+#define NUM_AI_CHANS 13
 #define AI_RES_BITS 12
 #define AI_REFV 3300000
 #define NUM_AI_INT_REFS 0
@@ -31,7 +31,7 @@
 
 #define NUM_PWM_CHANS 12
 
-#define NUM_SPI_CHANS 1
+#define NUM_SPI_CHANS 2
 #define NUM_SPI_SPEEDS 7
 
 #define NUM_I2C_CHANS 2
@@ -48,7 +48,7 @@
 #include "utility/LinxWiringDevice.h"
 #include "utility/LinxPjrc.h"
 	
-class LinxPjrcTeensy31 : public LinxPjrc
+class LinxPjrcTeensyLC : public LinxPjrc
 {
 	public:	
 		/****************************************************************************************
@@ -93,9 +93,9 @@ class LinxPjrcTeensy31 : public LinxPjrc
 		/****************************************************************************************
 		**  Constructors /  Destructor
 		****************************************************************************************/
-		LinxPjrcTeensy31();
+		LinxPjrcTeensyLC();
 		
-		~LinxPjrcTeensy31();
+		~LinxPjrcTeensyLC();
 			
 		/****************************************************************************************
 		**  Functions
@@ -117,4 +117,4 @@ class LinxPjrcTeensy31 : public LinxPjrc
 };
 
 
-#endif //LINX_PJRC_TEENSY31_H
+#endif //LINX_PJRC_TEENSYLC_H

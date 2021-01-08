@@ -33,10 +33,12 @@ const int TM4C123G::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 //None
 
 //DIGITAL
-const unsigned char TM4C123G::m_DigitalChans[NUM_DIGITAL_CHANS] ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};		//Todo Confirm
+/** @todo verify */
+const unsigned char TM4C123G::m_DigitalChans[NUM_DIGITAL_CHANS] ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
 
 //PWM
-const unsigned char TM4C123G::m_PwmChans[NUM_PWM_CHANS] = {3, 5, 6, 9, 10};  //Todo This has not been updated
+/** @todo verify; not updated */
+const unsigned char TM4C123G::m_PwmChans[NUM_PWM_CHANS] = {3, 5, 6, 9, 10};
 
 //QE
 //None

@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for PJRC Teensy 3.1
+**  LINX header for PJRC Teensy 4.0
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -9,34 +9,34 @@
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_PJRC_TEENSY31_H
-#define LINX_PJRC_TEENSY31_H
+#ifndef LINX_PJRC_TEENSY40_H
+#define LINX_PJRC_TEENSY40_H
 
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/	
 #define DEVICE_NAME_LEN 16
 
-#define NUM_AI_CHANS 21
+#define NUM_AI_CHANS 14
 #define AI_RES_BITS 12
 #define AI_REFV 3300000
 #define NUM_AI_INT_REFS 0
 
-#define NUM_AO_CHANS 1
+#define NUM_AO_CHANS 0
 #define AO_RES_BITS 12
 #define AO_REFV 3300000
 #define NUM_AO_INT_REFS 0
 
-#define NUM_DIGITAL_CHANS 24
+#define NUM_DIGITAL_CHANS 40
 
-#define NUM_PWM_CHANS 12
+#define NUM_PWM_CHANS 31
 
-#define NUM_SPI_CHANS 1
+#define NUM_SPI_CHANS 3
 #define NUM_SPI_SPEEDS 7
 
-#define NUM_I2C_CHANS 2
+#define NUM_I2C_CHANS 3
 
-#define NUM_UART_CHANS 4
+#define NUM_UART_CHANS 5
 #define NUM_UART_SPEEDS 13
 
 #define NUM_SERVO_CHANS NUM_DIGITAL_CHANS
@@ -48,7 +48,7 @@
 #include "utility/LinxWiringDevice.h"
 #include "utility/LinxPjrc.h"
 	
-class LinxPjrcTeensy31 : public LinxPjrc
+class LinxPjrcTeensy40 : public LinxPjrc
 {
 	public:	
 		/****************************************************************************************
@@ -93,9 +93,9 @@ class LinxPjrcTeensy31 : public LinxPjrc
 		/****************************************************************************************
 		**  Constructors /  Destructor
 		****************************************************************************************/
-		LinxPjrcTeensy31();
+		LinxPjrcTeensy40();
 		
-		~LinxPjrcTeensy31();
+		~LinxPjrcTeensy40();
 			
 		/****************************************************************************************
 		**  Functions
@@ -117,4 +117,4 @@ class LinxPjrcTeensy31 : public LinxPjrc
 };
 
 
-#endif //LINX_PJRC_TEENSY31_H
+#endif //LINX_PJRC_TEENSY40_H

@@ -20,3 +20,7 @@ fw_tst/*
 *.aliases
 *.lvlps
 .cache/
+
+# doc stuff
+docs/html/*
+*.html

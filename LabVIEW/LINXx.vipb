@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="2020.1" Created_Date="2020-12-23 22:48:42" Modified_Date="2020-12-30 20:06:25" Creator="chris" Comments="" ID="d4dbd32449ba6c127a16b64b0f7249e2">
+<VI_Package_Builder_Settings Version="2020.1" Created_Date="2020-12-23 22:48:42" Modified_Date="2021-01-07 11:41:01" Creator="chris" Comments="" ID="b6c899c7c663fea5cee07a55f0f7268c">
   <Library_General_Settings>
     <Package_File_Name>CBC_Girard_lib_LINXx</Package_File_Name>
-    <Library_Version>0.1.0.8</Library_Version>
+    <Library_Version>0.1.0.12</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\LV_package</Library_Output_Folder>
@@ -39,12 +39,13 @@ For Adafruit Feather M0, the firmware requires the additional Arduino libraries 
       <URL>https://github.com/cbcGirard/LINXx</URL>
       <Release_Notes>Alpha library extending functionality of the LINX toolkit.
 
+Adds:
+-Support for newer Teensies (LC, 4.0)
 -Support for Adafruit Feather M0 WiFi
 -Analog output for boards with built-in DAC (Feather, Teensies)
+-Demo for adding custom functions
 
 Upcoming functionality:
--Support for newer Teensies (LC, 4.0)
--Demo for adding custom functions
 -Board-level command sets</Release_Notes>
     </Description>
     <Destinations>
@@ -56,7 +57,7 @@ Upcoming functionality:
       <Examples>
         <LLB>false</LLB>
         <Preserve_Hierarchy>true</Preserve_Hierarchy>
-        <Path>&lt;application&gt;\examples\LINXx</Path>
+        <Path>&lt;application&gt;\examples</Path>
       </Examples>
       <Custom_Probes>
         <LLB>false</LLB>
@@ -281,7 +282,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\Utility</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>3605149F5B921B4C1AD5DB94AD5EF102</GUID>
+      <GUID>D5E0F7524197012F0628C2DCB7D398BB</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>0</Parent_Palette_Index>
@@ -316,7 +317,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\Board-specific\FeatherM0</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>41E45318C607FFA6F15A677725D3C109</GUID>
+      <GUID>8C5A96DF6ACCEFEF83282063A2D74C78</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>0</Parent_Palette_Index>
@@ -379,7 +380,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\Utility\Reset Board.vi</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>7488E03A030906F3BD9AB728488EEE0B</GUID>
+      <GUID>C2F3681B009F9DE35AB3CA82FAA88B5B</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>0</Parent_Palette_Index>
@@ -456,7 +457,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\WiFi\Switch to WiFi.vi</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>9238CB1C9470E6A6B6E9E72D346F9230</GUID>
+      <GUID>EF34EF25FD068DA57CDF7930C22CF32C</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>1</Parent_Palette_Index>
@@ -491,7 +492,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\Board-specific\FeatherM0\Interpret WiFi101 status.vi</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>9FB406BDD038D1BE482AB4B819319BC4</GUID>
+      <GUID>4120A45CABFA0B72F97B33F9A1BC64DA</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>3</Parent_Palette_Index>
@@ -540,7 +541,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\WiFi\Helpers\To TCP Config.vi</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>3A2ED95CF57E35AB34338A9D8721060C</GUID>
+      <GUID>D6F82460BB6EA055C07F6C31A3C35FAC</GUID>
     </Functions_Palette_Data>
   </Library_Palette_Definition>
 </VI_Package_Builder_Settings>

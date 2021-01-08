@@ -477,7 +477,9 @@ int LinxWiringDevice::I2cOpenMaster(unsigned char channel)
 	else
 	{
 		//Channel Not Yet Open, Open And Set Refcount = 1
-		 Wire.begin();			//TODO ONLY SUPPORT ONE CHANNEL ATM
+
+		/** @todo ONLY SUPPORT ONE CHANNEL ATM */
+		 Wire.begin();
 	}
 	return 0;
 }

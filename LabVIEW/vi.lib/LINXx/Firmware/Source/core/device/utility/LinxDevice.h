@@ -92,6 +92,9 @@
 /****************************************************************************************
 **  Typedefs
 ****************************************************************************************/		
+/**
+ * @typedef
+ */
 typedef enum LinxStatus
 {
 	L_OK = 0,
@@ -139,6 +142,10 @@ typedef enum UartStatus
 	LUART_CLOSE_FAIL
 }UartStatus;
 
+/**
+ * @brief Reset target
+ * 
+ */
 typedef enum ResetWhat
 {
 	LRESET_NONE,
@@ -147,75 +154,109 @@ typedef enum ResetWhat
 	LRESET_ALL
 }ResetWhat;
 
+
+/**
+ * @brief Base class for board functionality; extended by family and board-specific code
+ * 
+ */
 class LinxDevice
 {
 	public:	
 		/****************************************************************************************
 		**  Member Variables
 		****************************************************************************************/				
-		
-		//Device ID
+		/** @name IDs
+		 * @{*/
 		unsigned char DeviceFamily;
 		unsigned char DeviceId;
 		unsigned char DeviceNameLen;
 		const unsigned char* DeviceName;
 		unsigned char ListenerBufferSize;
+		///@}
 		
-		//LINX API Version
+		/** @name LINX API Version
+		 */
+		///@{ 
 		unsigned char LinxApiMajor;
 		unsigned char LinxApiMinor;
 		unsigned char LinxApiSubminor;
+		///@}
 		
 		//----Peripherals----
-		
-		//DIO		
+
+		/** @name DIO
+		 * @{*/
 		unsigned char NumDigitalChans;
 		const unsigned char*  DigitalChans;
-		
-		//AI
+		///@}
+
+		/** @name AIO 
+		 * @{*/ 
 		unsigned char NumAiChans;
 		const unsigned char* AiChans;
 		unsigned char AiResolution;
 		unsigned long AiRefDefault;
 		unsigned long AiRefSet;
 		
-		//AO
 		unsigned char NumAoChans;
 		const unsigned char* AoChans;
 		unsigned char AoResolution;
 		unsigned long AoRefDefault;
 		unsigned long AoRefSet;
-		
-		//PWM
+		///@}
+
+		/** @name PWM
+		 */
+		///@{ 
 		unsigned char NumPwmChans;
 		const unsigned char* PwmChans;
-		
-		//QE
+		///@}
+
+		/** @name QE
+		 */
+		///@{ 
 		unsigned char NumQeChans;
 		const unsigned char* QeChans;
-		
-		//UART
+		///@}
+
+		/** @name UART
+		 */
+		///@{ 
 		unsigned char NumUartChans;
 		const unsigned char* UartChans;
 		unsigned long UartMaxBaud;
-		
-		//I2C
+		///@}
+
+		/** @name I2C
+		 */
+		///@{ 
 		unsigned char NumI2cChans;
 		const unsigned char* I2cChans;
-		
-		//SPI
+		///@}
+
+		/** @name  SPI
+		 */
+		///@{
 		unsigned char NumSpiChans;
 		const unsigned char* SpiChans;
-		
-		//CAN
+		///@}
+
+		/** @name CAN
+		 */
+		///@{ 
 		unsigned char NumCanChans;
 		const unsigned char* CanChans;
-		
-		//Servo
+		///@}
+
+		/** @name Servo
+		 */
+		///@{ 
 		unsigned char NumServoChans;
 		const unsigned char* ServoChans;
-		
-		//User Configured Values
+		///@}
+
+		/** @name User
+		 * @{*/
 		unsigned short userId;
   
 		unsigned long ethernetIp;
@@ -229,13 +270,17 @@ class LinxDevice
 		unsigned char WifiSecurity;
 		unsigned char WifiPwSize;
 		char WifiPw[64];
+		///@}
 
 		
 		unsigned long serialInterfaceMaxBaud;
 
-		//LINXx values
+		/** @name LINXx
+		 */
+		///@{
 		ResetWhat ResetTarget=LRESET_NONE;
 		unsigned char WifiStatus=0xFF;
+		///@}
 
 		/****************************************************************************************
 		**  Constructors/Destructor
@@ -247,41 +292,52 @@ class LinxDevice
 		**  Functions
 		****************************************************************************************/
 		
-		//Analog
+		/** @name AIO 
+		 * @{*/
 		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
 		virtual int AnalogReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values);		//Values Are ADC Ticks And Not Bit Packed
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage) = 0;
 
 		virtual int AnalogWrite(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;				//Values Are Bit Packed
 		virtual int AnalogWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values);		//Values Are Not Bit Packed
-			
-		//DIGITAL
+		///@}
+
+		/** @name DIO
+		 * @{*/
 		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;				//Values Are Bit Packed
 		virtual int DigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);		//Values Are Not Bit Packed
 		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
 		virtual int DigitalReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);		//Response Not Bit Packed
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration) = 0;
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width) = 0;
-		
-		//PWM
+		/**@}*/
+
+		/** @name PWM
+		 * @{*/
 		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
 		virtual int PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned long* values);
-		
-		//SPI
+		///@}
+
+		/** @name SPI
+		 * @{*/
 		virtual int SpiOpenMaster(unsigned char channel) = 0;
 		virtual int SpiSetBitOrder(unsigned char channel, unsigned char bitOrder) = 0;
 		virtual int SpiSetMode(unsigned char channel, unsigned char mode) = 0;
 		virtual int SpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed) = 0;
 		virtual int SpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer) = 0;
-		
-		//I2C
+		///@}
+
+		/** @name I2C
+		 * @{*/
 		virtual int I2cOpenMaster(unsigned char channel) = 0;
 		virtual int I2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed) = 0;
 		virtual int I2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer) = 0;
 		virtual int I2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer) = 0;		
 		virtual int I2cClose(unsigned char channel) = 0;
-		
-		//UART
+		///@}
+
+		/** @name UART
+		 * @{*/
 		virtual int UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud) = 0;
 		virtual int UartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud) = 0;
 		virtual int UartGetBytesAvailable(unsigned char channel, unsigned char *numBytes) = 0;
@@ -304,28 +360,36 @@ class LinxDevice
 		virtual void UartWriteln(unsigned char channel, unsigned long n);
 		virtual void UartWriteln(unsigned char channel, long n, int base);		
 		virtual int UartClose(unsigned char channel) = 0;
+		///@}
 		
-		//Servo
+		/** @name Servo
+		 * @{*/
 		virtual int ServoOpen(unsigned char numChans, unsigned char* channels) = 0;
 		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* channels, unsigned short* pulseWidths) = 0;
 		virtual int ServoClose(unsigned char numChans, unsigned char* channels) = 0;
-		
-		//WS2812
+		///@}
+
+		/** @name WS2812
+		 * @{*/
 		virtual int Ws2812Open(unsigned short numLeds, unsigned char dataChan);
 		virtual int Ws2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh);
 		virtual int Ws2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh);
 		virtual int Ws2812Refresh();
 		virtual int Ws2812Close();
-				
-		//General
+		///@}
+
+		/** @name General
+		 * @{*/
 		unsigned char ReverseBits(unsigned char b);
 		virtual unsigned long GetMilliSeconds() = 0;
 		virtual unsigned long GetSeconds() = 0;
 		virtual void DelayMs(unsigned long ms);
 		virtual void NonVolatileWrite(int address, unsigned char data) = 0;
 		virtual unsigned char NonVolatileRead(int address) = 0;
+		///@}
 		
-		//Debug
+		/** @name Debug */
+		///@{
 		virtual void EnableDebug(unsigned char channel);
 		
 		virtual void DebugPrint(char c);
@@ -345,13 +409,15 @@ class LinxDevice
 		virtual void DebugPrintln(long n);
 		virtual void DebugPrintln(unsigned long n);
 		virtual void DebugPrintln(long n, int base);
-
 		
 		virtual void DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer);
-				
-		// management
+		///@}
+
+		/** @name LINXx */
+		///@{
 		virtual int BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response);
 		virtual int Reset(ResetWhat target);
+		///@}
 
 
 	private:

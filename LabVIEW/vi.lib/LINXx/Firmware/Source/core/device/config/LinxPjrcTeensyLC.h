@@ -1,10 +1,10 @@
 /****************************************************************************************
-**  LINX Configuration data for the PJRC Teensy 3.1
+**  LINX Configuration data for the PJRC Teensy LC
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Sam Kristoff
+**  Written By Sam Kristoff, modified by CBC Girard
 **
 ** BSD2 License.
 ****************************************************************************************/		
@@ -15,7 +15,7 @@
 
 	#define DEBUG_ENABLED -1
 	#define NUM_I2C_CHANS 2
-	#define NUM_SPI_CHANS 1
+	#define NUM_SPI_CHANS 2
 	#define NUM_UART_CHANS 4
 	#define DEVICE_FAMILY 2
 

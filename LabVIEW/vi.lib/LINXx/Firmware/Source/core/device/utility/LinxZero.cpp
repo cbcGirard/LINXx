@@ -19,7 +19,7 @@
 ****************************************************************************************/
 LinxZero::LinxZero()
 {
-	DeviceFamily = 0xFF;	//Arduino Zero-like Family Code
+	DeviceFamily = 0x10;	//Arduino Zero-like Family Code
 	
 	//set up flash for NV storage
 	if (!EEPROM.isValid()) {

@@ -6,11 +6,18 @@
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">false</Property>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Dev helpers" Type="Folder">
+			<Item Name="FindFromINI.vi" Type="VI" URL="../Private/FindFromINI.vi"/>
 			<Item Name="Format Command to md.vi" Type="VI" URL="../Private/Format Command to md.vi"/>
+			<Item Name="Get Board Info From Installed.vi" Type="VI" URL="../Private/Get Board Info From Installed.vi"/>
+			<Item Name="Get Board Info From Repo.vi" Type="VI" URL="../Private/Get Board Info From Repo.vi"/>
 			<Item Name="Get Project Paths.vi" Type="VI" URL="../Private/Get Project Paths.vi"/>
+			<Item Name="GetStringMatch.vi" Type="VI" URL="../Private/GetStringMatch.vi"/>
+			<Item Name="GetValFromFile.vi" Type="VI" URL="../Private/GetValFromFile.vi"/>
 			<Item Name="QuickFWCopy.vi" Type="VI" URL="../Private/QuickFWCopy.vi"/>
+			<Item Name="Rebuild Boards Table.vi" Type="VI" URL="../Private/Rebuild Boards Table.vi"/>
 			<Item Name="Rebuild Command Table.vi" Type="VI" URL="../Private/Rebuild Command Table.vi"/>
 			<Item Name="Rebuild Lua filter.vi" Type="VI" URL="../Private/Rebuild Lua filter.vi"/>
+			<Item Name="Sort ID table.vi" Type="VI" URL="../Private/Sort ID table.vi"/>
 		</Item>
 		<Item Name="Analog info.ctl" Type="VI" URL="../Private/Analog info.ctl"/>
 		<Item Name="Force reset.vi" Type="VI" URL="../Private/Force reset.vi"/>

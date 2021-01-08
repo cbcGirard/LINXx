@@ -18,6 +18,7 @@
 ****************************************************************************************/
 #include "LinxDevice.h"
 #include "LinxWiringDevice.h"
+#include  <Arduino.h>
 	
 class LinxPjrc : public LinxWiringDevice
 {
@@ -34,7 +35,7 @@ class LinxPjrc : public LinxWiringDevice
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-		
+		virtual int UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer);
 	private:
 		/****************************************************************************************
 		**  Variables

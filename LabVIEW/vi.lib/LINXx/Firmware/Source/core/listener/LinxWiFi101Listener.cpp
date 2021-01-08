@@ -68,6 +68,13 @@ int LinxWiFi101Listener::SetPassphrase(const char pw[])
 	return L_OK;
 }
 
+/**
+ * @brief Copies current network config back to device object
+ * 
+ * @param ssidSize 
+ * @param pwSize 
+ * @return int 
+ */
 int LinxWiFi101Listener::_UpdateDev(int ssidSize, int pwSize) {
 
 	LinxDev->WifiIp=LinxWifiIp;
@@ -86,7 +93,12 @@ int LinxWiFi101Listener::_UpdateDev(int ssidSize, int pwSize) {
 	return L_OK;
 }
 
-//Start With IP And Port Saved In NVS
+/**
+ * @brief Start With IP And Port Saved In NVS
+ * 
+ * @param linxDev 
+ * @return int 
+ */
 int LinxWiFi101Listener::Start(LinxDevice* linxDev)
 {
 		
@@ -138,6 +150,17 @@ int LinxWiFi101Listener::Start(LinxDevice* linxDev)
 	}
 }
 
+/**
+ * @brief Start using network config set in firmware sketch
+ * 
+ * @param linxDev 
+ * @param ip3 
+ * @param ip2 
+ * @param ip1 
+ * @param ip0 
+ * @param port 
+ * @return int 
+ */
 int LinxWiFi101Listener::Start(LinxDevice* linxDev, unsigned char ip3, unsigned char ip2, unsigned char ip1, unsigned char ip0, unsigned short port)
 {
 	LinxDev = linxDev;
@@ -163,7 +186,11 @@ int LinxWiFi101Listener::Start(LinxDevice* linxDev, unsigned char ip3, unsigned 
 	
 }
 
-//Start With IP And Port Saved In RAM
+/**
+ * @brief Start With IP And Port Saved In RAM
+ * 
+ * @return int 
+ */
 int LinxWiFi101Listener::Restart(void)
 {
 	//Load Stored WIFI Values
@@ -206,7 +233,11 @@ int LinxWiFi101Listener::Restart(void)
 	return L_OK;
 	}
 }
- 
+ /**
+  * @brief Debug network information
+  * 
+  * @return int 
+  */
 int LinxWiFi101Listener::PrintWifiInfo()
 {
 	//SSID
@@ -270,10 +301,14 @@ int LinxWiFi101Listener::PrintWifiInfo()
 }
 
 	
-
+/**
+ * @brief This case will be called repeatedly until the device connects to the network and starts listening.
+ * 
+ * @return int 
+ */
 int LinxWiFi101Listener::Init()
 {
-	//This case will be called repeatedly until the device connects to the network and starts listening.
+	//
 
 	//SSID
 	const char * szSsid; 
@@ -310,11 +345,11 @@ int LinxWiFi101Listener::Init()
 			//WPA2 Key  --Untested--
 			//LinxWifiConnectStatus = deIPcK.wfConnect(szSsid, szPassPhrase, &LinxTcpStatus);
 			break;
+		/** @todo  other security types */
 		case WEP40:
-			//TODO
 			break;
+
 		case WEO104:
-			//TODO
 			break;
 		default:			
 			break;     
@@ -346,13 +381,22 @@ int LinxWiFi101Listener::Init()
 	return L_OK;
 }
 
-
+/**
+ * @brief 
+ * 
+ * @return int 
+ */
 int LinxWiFi101Listener::Listen()
 {	
 	State = AVAILABLE;	
 	return L_OK;
 }
 
+/**
+ * @brief Check for client
+ * 
+ * @return int 
+ */
 int LinxWiFi101Listener::Available()
 {
 	m_WifiClient = m_pWifiSvr->available();
@@ -364,6 +408,11 @@ int LinxWiFi101Listener::Available()
 	return L_OK;
 }
 
+/**
+ * @brief Connect to client
+ * 
+ * @return int 
+ */
 int LinxWiFi101Listener::Accept()
 { 
 
@@ -381,15 +430,18 @@ int LinxWiFi101Listener::Accept()
 	return L_OK;
 }
 
+/**
+ * @brief Handle packets if available
+ * 
+ * @return int 
+ */
 int LinxWiFi101Listener::Connected()
 {
 	//Read Wifi TCP Bytes
-		uint8_t tmp;
 	//If There Are Bytes Available Have A Look, If Not Loop (Remain In Read Unless Timeout)
 	if(m_WifiClient.available() > 0)
 	{
 		//Read First Byte, Check If It Is SoF (0xFF)
-		tmp=m_WifiClient.peek();
 		recBuffer[0] = m_WifiClient.read();
 		if ( recBuffer[0] == 0xFF)
 		{
@@ -486,6 +538,11 @@ int LinxWiFi101Listener::Connected()
 	return L_OK;
 }
 
+/**
+ * @brief Close client connection
+ * 
+ * @return int 
+ */
 int LinxWiFi101Listener::Close()
 {
 	
@@ -501,6 +558,11 @@ int LinxWiFi101Listener::Close()
 	return L_OK;
 }
 
+/**
+ * @brief Restart wifi stack
+ * 
+ * @return int 
+ */
 int LinxWiFi101Listener::Exit()
 {
 	PrevPacket=0;
@@ -522,6 +584,11 @@ int LinxWiFi101Listener::Exit()
 	}
 }
 
+/**
+ * @brief Periodic handler
+ * 
+ * @return int 
+ */
 int LinxWiFi101Listener::CheckForCommands()
 {
 	switch(State)

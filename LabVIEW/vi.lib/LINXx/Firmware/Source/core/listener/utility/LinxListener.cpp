@@ -4,7 +4,7 @@
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Sam Kristoff
+**  Written By Sam Kristoff, modified by CBC Girard
 **
 ** BSD2 License.
 ****************************************************************************************/	
@@ -105,11 +105,11 @@ bool LinxListener::ChecksumPassed(unsigned char* packetBuffer)
   return (ComputeChecksum(packetBuffer) == packetBuffer[packetBuffer[1]-1]);
 }
 
-
 void LinxListener::StatusResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, int status)
 {
 	PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 0, status); 
 }
+
 
 
 int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
@@ -120,14 +120,19 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	int status = L_OK;
 	
 	/****************************************************************************************
-	** User Commands
+	** User Commands (0xFC00 - 0xFFFF)
 	****************************************************************************************/	
+
 	if(command >= 0xFC00)	
 	{
 		unsigned char numResponseBytes = 0;
 		status = customCommands[command - 0xFC00](commandPacketBuffer[1]-7, commandPacketBuffer+6, &numResponseBytes, responsePacketBuffer+5);
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numResponseBytes, status); 
 	}
+	/****************************************************************************************
+	** Board-specific Commands (0xF800 - 0xF8FF)
+	****************************************************************************************/	
+
 	else if (command >= 0xF800)
 	{
 		// Board-specific commands
@@ -143,13 +148,14 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		{
 		
 		/************************************************************************************
-		* SYSTEM COMMANDS
+		*- SYSTEM COMMANDS (0x0000 - 0x003F)
 		************************************************************************************/
-		case 0x0000: // Sync Packet        
+		case 0x0000: // Sync Packet
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
 			
-		//case 0x0001: //TODO Flush Linx Connection Buffer
+		/** @todo Flush Linx Connection Buffer */
+		//case 0x0001: // Flush Linx Connection Buffer
 		case 0x0002: //LINXx Reset
 		{
 			status=LinxDev->Reset((ResetWhat) commandPacketBuffer[6]);
@@ -188,7 +194,12 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		}		
 			
-		//case 0x0007: //TODO Get Max Packet Size
+		case 0x0007: //LINXx Get Max Packet Size
+		{
+			responsePacketBuffer[5]=LinxDev->ListenerBufferSize;
+			PacketizeAndSend(commandPacketBuffer,responsePacketBuffer,1,status);
+			break;
+		}
 		
 		case 0x0008: // Get DIO Channels
 			DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->DigitalChans, LinxDev->NumDigitalChans, L_OK);
@@ -377,7 +388,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
 			
-		//case 0x0021: //TODO Get Device WIFI Password - Intentionally Not Implemented For Security Reasons.
+		//case 0x0021: //Get Device WIFI Password - Intentionally Not Implemented For Security Reasons.
 			
 		case 0x0022: //Set Device Max Baud
 			LinxDev->serialInterfaceMaxBaud = (unsigned long)(((unsigned long)commandPacketBuffer[6]<<24) | ((unsigned long)commandPacketBuffer[7]<<16) | ((unsigned long)commandPacketBuffer[8]<<8) | ((unsigned long)commandPacketBuffer[9]));
@@ -413,9 +424,10 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		//---0x0027 to 0x003F Reserved---
 		
 		/****************************************************************************************
-		** Digital I/O
+		*- Digital I/O (0x0040 - 0x005F)
 		****************************************************************************************/	
-		//case 0x0040: //TODO Set Pin Mode
+		/** @todo Set pin mode*/
+		//case 0x0040: // Set Pin Mode
 		
 		case 0x0041: // Digital Write
 			status = LinxDev->DigitalWrite(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[7+commandPacketBuffer[6]]);
@@ -461,7 +473,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		//---0x0045 to 0x005F Reserved---
 		
 		/****************************************************************************************
-		** Analog I/O
+		*- Analog I/O (0x0060 - 0x007F)
 		****************************************************************************************/	
 		case 0x0060: //Set AI Ref Voltage
 		{			
@@ -479,7 +491,8 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, status); 
 			break;
 			
-		//case 0x0062: //TODO Set AI Resolution
+		/** @todo Set AI resolution */
+		//case 0x0062: // Set AI Resolution
 		case 0x0063: //LINXx Get AI Resolution
 		{
 			responsePacketBuffer[5]=(LinxDev->AiResolution);
@@ -511,6 +524,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		}
 		
+		/** @todo Set AO ref voltage */
 		//case 0x0066: //Set AO Ref Voltage
 		case 0x0067: //LINXx AO Ref Voltage
 		{
@@ -522,6 +536,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		}
 		
+		/** @todo Set AO resolution */
 		//case 0x0068: //Set AO Resolution
 		case 0x0069: //LINXx AO Resolution
 		{
@@ -534,31 +549,31 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 
 		
 		/****************************************************************************************
-		** PWM
+		*- PWM (0x0080 - 0x009F)
 		****************************************************************************************/	
-		
-		//case 0x0080: //TODO PWM Open
-		//case 0x0081: //TODO PWM Set Mode
-		//case 0x0082: //TODO PWM Set Frequency
+		/** @todo PWM Open, Set Mode, Set Freq, Close */
+		//case 0x0080: // PWM Open
+		//case 0x0081: // PWM Set Mode
+		//case 0x0082: // PWM Set Frequency
 		
 		case 0x0083: //PWM Set Duty Cycle	
 			status = LinxDev->PwmSetDutyCycle(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[commandPacketBuffer[6] + 7] );
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
 		
-		//case 0x0084: //TODO PWM Close	
+		//case 0x0084: // PWM Close	
 		
 		//---0x0085 to 0x009F Reserved---
 
 		/****************************************************************************************
-		** QE
+		*- QE (0x00A0 - 0x00BF)
 		****************************************************************************************/		
 		
 		//---0x00A0 to 0x00BF Reserved---
 		
 		
 		/****************************************************************************************
-		** UART
+		*- UART (0x00C0 - 0x00DF)
 		****************************************************************************************/	
 		case 0x00C0: // UART Open
 		{
@@ -616,7 +631,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		//---0x00C6 to 0x00DF Reserved---
 		
 		/****************************************************************************************
-		** I2C
+		*- I2C (0x00E0 - 0x00FF)
 		****************************************************************************************/	
 		case 0x00E0: // I2C Open Master
 			status = LinxDev->I2cOpenMaster(commandPacketBuffer[6]);
@@ -652,7 +667,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		//---0x00E5 to 0x00FF Reserved---
 			
 		/****************************************************************************************
-		** SPI
+		*- SPI (0x0100 - 0x011F)
 		****************************************************************************************/	
 		case 0x0100: // SPI Open Master
 			status = LinxDev->SpiOpenMaster(commandPacketBuffer[6]);
@@ -699,17 +714,17 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		}
 		
-		//---0x0108 to 0x01FF Reserved---
+		//---0x0108 to 0x011F Reserved---
 
 		
 		/****************************************************************************************
-		** CAN
+		*- CAN (0x0120 - 0x013F)
 		****************************************************************************************/	
 		
 		//---0x0120 to 0x013F Reserved---
 		
 		/****************************************************************************************
-		** SERVO
+		*- SERVO (0x0140 - 0x015F)
 		****************************************************************************************/	
 		case 0x0140: // Servo Init
 			//LinxDev->DebugPrintln("Opening Servo");
@@ -731,9 +746,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			{				
 				tempVals[i] = *(valPtr + (i*2))<<8  | *(valPtr + (i*2) + 1);								//Create Unsigned Short From Bytes (Swap To Fix Endianess)							
 			}
-			
-			//TODO REMOVE DEBUG PRINT
-			//LinxDev->DebugPrintln("::tempVals::");
+
 			
 			for(int i=0; i<commandPacketBuffer[6]; i++)
 			{
@@ -752,7 +765,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		//---0x0143 to 0x015F Reserved---
 		
 		/****************************************************************************************
-		** WS2812
+		*- WS2812 (0x0160 - 0x017F)
 		****************************************************************************************/	
 		case 0x0160: // WS2812 Open
 			status = LinxDev->Ws2812Open((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), commandPacketBuffer[8]);
@@ -778,20 +791,42 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		//---0x0165 to 0x017F Reserved
 
 		/****************************************************************************************
-		** Unused
+		*- Unused (0x0180 - 0x11FF)
 		****************************************************************************************/	
 	
-		//---0x0180 to 0xF7FF Reserved
+		//---0x0180 to 0x11FF Reserved
+
+		/****************************************************************************************
+		*- Buffer functions (0x2000 - 0x2FFF)
+		****************************************************************************************/	
+	
+		/** @todo Buffer functions (CircularBuffer library) */
+		//---0x2000 to 0x2FFF Reserved
+
+		/****************************************************************************************
+		*- Task API (0x4000 - 0x4FFF)
+		****************************************************************************************/	
+	
+		/** @todo Task functions (TaskScheduler library) */
+		//---0x4000 to 0x4FFF Reserved
+
+		/****************************************************************************************
+		*- Unused (0x5000 - 0xF7FF)
+		****************************************************************************************/	
+	
+		//---0x5000 to 0xF7FF Reserved
 
 
 		/****************************************************************************************
-		** Board-specific commands
+		*- Board-specific commands (0xF800 - 0xFBFF)
 		****************************************************************************************/	
 	
 		//---0xF800 to 0xF8FF LINXx, Implemented by board
-		//---0xF800 to 0xFBFF Reserved
 
-
+		/****************************************************************************************
+		*- User commands (0xFC00 - 0xFFFF)
+		****************************************************************************************/	
+	
 		/****************************************************************************************
 		** Default
 		****************************************************************************************/	
@@ -803,6 +838,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	
 	return status;
 }
+
 
 
 void LinxListener::PacketizeAndSend(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, unsigned int dataSize,  int status)
@@ -825,6 +861,7 @@ void LinxListener::PacketizeAndSend(unsigned char* commandPacketBuffer, unsigned
 	//Compute And Load Checksum
 	responsePacketBuffer[dataSize+5] = ComputeChecksum(responsePacketBuffer);	
 }
+
 
 void LinxListener::DataBufferResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, const unsigned char* dataBuffer, unsigned char dataSize, int status)
 {

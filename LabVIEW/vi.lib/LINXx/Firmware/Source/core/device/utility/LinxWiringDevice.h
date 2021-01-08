@@ -29,6 +29,8 @@ class LinxWiringDevice : public LinxDevice
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
+		/** @name AIO
+		 * @{*/
 		unsigned char NumAiRefIntVals;					//Number Of Internal AI Reference Voltages
 		const unsigned long* AiRefIntVals;				//Supported AI Reference Voltages (uV)
 		const int* AiRefCodes;								//AI Ref Values (AI Ref Macros In Wiring Case)
@@ -42,19 +44,31 @@ class LinxWiringDevice : public LinxDevice
 		
 		unsigned long AoRefExtMin;							//Min External Ao Ref Value (uV)
 		unsigned long AoRefExtMax;					    //Min External Ao Ref Value (uV)		
-		
+		///@}
 
-
+		/** @name UART
+		 * @{*/
 		unsigned char NumUartSpeeds;					//Number Of Support UART Buads
 		unsigned long* UartSupportedSpeeds;			//Supported UART Bauds Frequencies
+		///@}
 		
+		/** @name SPI
+		 * @{*/
 		unsigned char NumSpiSpeeds;					//Number Of Supported SPI Speeds
 		unsigned long* SpiSupportedSpeeds;			//Supported SPI Clock Frequencies
 		int* SpiSpeedCodes;									//SPI Speed Values (Clock Divider Macros In Wiring Case)
+		///@}
 		
+		/** @name I2C
+		 * @{*/
 		unsigned char* I2cRefCount;						//Number Opens - Closes On I2C Channel
-		
+		///@}
+
+		/** @name Servo
+		 * @{*/
 		Servo** Servos;										//Array Servo Pointers
+		///@}
+
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
@@ -63,55 +77,68 @@ class LinxWiringDevice : public LinxDevice
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-		
-		//Analog
+		/** @name AIO
+		 * @{*/
 		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage);
 		virtual int AnalogWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
+		///@}
 
-		//DIGITAL
+		/** @name DIO
+		 * @{*/
 		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width);
-		
+		///@}
 		//PWM
 		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values);
+		///@}
 		
-		//SPI
+		/** @name SPI
+		 * @{*/
 		virtual int SpiOpenMaster(unsigned char channel);
 		virtual int SpiSetBitOrder(unsigned char channel, unsigned char bitOrder);
 		virtual int SpiSetMode(unsigned char channel, unsigned char mode);
 		virtual int SpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed);
 		virtual int SpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer);
-		
-		//I2C
+		///@}
+
+		/** @name I2C
+		 * @{*/
 		virtual int I2cOpenMaster(unsigned char channel);
 		virtual int I2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed);
 		virtual int I2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer);
 		virtual int I2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer);		
 		virtual int I2cClose(unsigned char channel);
+		///@}
 		
-		//UART
+		/** @name UART
+		 * @{*/
 		virtual int UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud);
 		virtual int UartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud);
 		virtual int UartGetBytesAvailable(unsigned char channel, unsigned char *numBytes);
 		virtual int UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead);
 		virtual int UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer);
 		virtual int UartClose(unsigned char channel);
+		///@}
 		
-		//Servo
+		/** @name Servo
+		 * @{*/
 		virtual int ServoOpen(unsigned char numChans, unsigned char* chans);
 		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths);
 		virtual int ServoClose(unsigned char numChans, unsigned char* chans);
+		///@}
 		
-		//General - 
+		/** @name General
+		 * @{*/
 		virtual unsigned long GetMilliSeconds();
 		virtual unsigned long GetSeconds();
 		virtual void DelayMs(unsigned long ms);
 		virtual void NonVolatileWrite(int address, unsigned char data);
 		virtual unsigned char NonVolatileRead(int address);
-		
+		///@}
+
 		//Debug
 		
 		
@@ -128,7 +155,11 @@ class LinxWiringDevice : public LinxDevice
 	/****************************************************************************************
 	**  Functions
 	****************************************************************************************/
-	void LinxWireWrite();
+	
+			/** @name I2C
+		 * @{*/
+		void LinxWireWrite();
+		///@}
 				
 };
 

@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX PJRC Teensy 3.1 code
+**  LINX PJRC Teensy 4.0 code
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -17,59 +17,56 @@
 #include "utility/LinxDevice.h"
 #include "utility/LinxWiringDevice.h"
 #include "utility/LinxPjrc.h"
-#include "LinxPjrcTeensy31.h"
+#include "LinxPjrcTeensy40.h"
 
 /****************************************************************************************
 **  Member Variables
 ****************************************************************************************/
 //System
-const unsigned char LinxPjrcTeensy31::m_DeviceName[DEVICE_NAME_LEN] = "PJRC Teensy 3.1";
+const unsigned char LinxPjrcTeensy40::m_DeviceName[DEVICE_NAME_LEN] = "PJRC Teensy 4.0";
 
 //AI
-// const unsigned char LinxPjrcTeensy31::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}; 
-const unsigned char LinxPjrcTeensy31::m_AiChans[NUM_AI_CHANS] = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 34, 35, 36, 37, 40, 26, 27, 28, 29, 30, 31};
-const unsigned long LinxPjrcTeensy31::m_AiRefIntVals[NUM_AI_INT_REFS] = {};
-const int LinxPjrcTeensy31::m_AiRefCodes[NUM_AI_INT_REFS] = {};
+const unsigned char LinxPjrcTeensy40::m_AiChans[NUM_AI_CHANS] = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27};
+const unsigned long LinxPjrcTeensy40::m_AiRefIntVals[NUM_AI_INT_REFS] = {};
+const int LinxPjrcTeensy40::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 
 //AO
-const unsigned char LinxPjrcTeensy31::m_AoChans[NUM_AO_CHANS]= {40};
-const unsigned long LinxPjrcTeensy31::m_AoRefIntVals[NUM_AO_INT_REFS] = {};
-const int LinxPjrcTeensy31::m_AoRefCodes[NUM_AO_INT_REFS] = {};
+const unsigned char LinxPjrcTeensy40::m_AoChans[NUM_AO_CHANS]= {};
+const unsigned long LinxPjrcTeensy40::m_AoRefIntVals[NUM_AO_INT_REFS] = {};
+const int LinxPjrcTeensy40::m_AoRefCodes[NUM_AO_INT_REFS] = {};
 
 //DIGITAL
-const unsigned char LinxPjrcTeensy31::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}; 
+const unsigned char LinxPjrcTeensy40::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39}; 
 
 //PWM
-const unsigned char LinxPjrcTeensy31::m_PwmChans[NUM_PWM_CHANS] = {3, 4, 5, 6, 9, 20, 21, 22, 23, 25, 32}; 
+const unsigned char LinxPjrcTeensy40::m_PwmChans[NUM_PWM_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 22, 23, 24, 25, 28, 29, 33}; 
 
 //QE
 //None
 
 //SPI
-const unsigned char LinxPjrcTeensy31::m_SpiChans[NUM_SPI_CHANS] = {0};
-/** @todo verify */
-unsigned long LinxPjrcTeensy31::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {8000000, 4000000, 2000000, 1000000, 500000, 250000, 125000};
-int LinxPjrcTeensy31::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {SPI_CLOCK_DIV2, SPI_CLOCK_DIV4, SPI_CLOCK_DIV8, SPI_CLOCK_DIV16, SPI_CLOCK_DIV32, SPI_CLOCK_DIV64, SPI_CLOCK_DIV128};
+const unsigned char LinxPjrcTeensy40::m_SpiChans[NUM_SPI_CHANS] = {0, 1, 2};
+unsigned long LinxPjrcTeensy40::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {8000000, 4000000, 2000000, 1000000, 500000, 250000, 125000};
+int LinxPjrcTeensy40::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {SPI_CLOCK_DIV2, SPI_CLOCK_DIV4, SPI_CLOCK_DIV8, SPI_CLOCK_DIV16, SPI_CLOCK_DIV32, SPI_CLOCK_DIV64, SPI_CLOCK_DIV128};
 
 //I2C
-unsigned char LinxPjrcTeensy31::m_I2cChans[NUM_I2C_CHANS] = {0, 1};
-unsigned char LinxPjrcTeensy31::m_I2cRefCount[NUM_I2C_CHANS];			
+unsigned char LinxPjrcTeensy40::m_I2cChans[NUM_I2C_CHANS] = {0, 1, 2};
+unsigned char LinxPjrcTeensy40::m_I2cRefCount[NUM_I2C_CHANS];			
 
 //UART
-unsigned char LinxPjrcTeensy31::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3};
-/** @todo verify */
-unsigned long LinxPjrcTeensy31::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200};
+unsigned char LinxPjrcTeensy40::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3, 4};
+unsigned long LinxPjrcTeensy40::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 40250, 38400, 57600, 115200}; //< @todo verify
 
 //SERVO
-Servo* LinxPjrcTeensy31::m_Servos[NUM_SERVO_CHANS] =	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};		//Initialize To Null Pointers
+Servo* LinxPjrcTeensy40::m_Servos[NUM_SERVO_CHANS] =	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};		//Initialize To Null Pointers
 
 /****************************************************************************************
 **  Constructors /  Destructor
 ****************************************************************************************/
-LinxPjrcTeensy31::LinxPjrcTeensy31()
+LinxPjrcTeensy40::LinxPjrcTeensy40()
 {
 	//Family ID Set At Family Level
-	DeviceId = 0x03;	//Teensy 3.1
+	DeviceId = 0x10;	//Teensy 4.0
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
@@ -160,7 +157,7 @@ LinxPjrcTeensy31::LinxPjrcTeensy31()
 }
 
 //Destructor
-LinxPjrcTeensy31::~LinxPjrcTeensy31()
+LinxPjrcTeensy40::~LinxPjrcTeensy40()
 {
 	//Handle Any Device Clean Up Here.
 	//UartClose();
@@ -170,7 +167,7 @@ LinxPjrcTeensy31::~LinxPjrcTeensy31()
 **  Functions
 ****************************************************************************************/
 
-int LinxPjrcTeensy31::BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response){
+int LinxPjrcTeensy40::BoardCommands(unsigned char command, unsigned char numInputBytes, unsigned char* input, unsigned char* numResponseBytes, unsigned char* response){
 	int status=L_OK;
 
 	switch (command) {
@@ -195,23 +192,24 @@ int LinxPjrcTeensy31::BoardCommands(unsigned char command, unsigned char numInpu
 	return status;
 }
 
-int LinxPjrcTeensy31::Reset(ResetWhat target) {
+int LinxPjrcTeensy40::Reset(ResetWhat target) {
 	int status=L_FUNCTION_NOT_SUPPORTED;
 	switch (target) {
 		case LRESET_ALL:
-		ResetTarget=LRESET_NONE;
-		//snippet source below
-		// From http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0337e/Cihcbadd.html
-		// Search for "0xE000ED0C"
-		// Original question http://forum.pjrc.com/threads/24304-_reboot_Teensyduino%28%29-vs-_restart_Teensyduino%28%29?p=35981#post35981
+		/** @todo Find reset method for 4.x series */
+		// ResetTarget=LRESET_NONE;
+		// //snippet source below
+		// // From http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0337e/Cihcbadd.html
+		// // Search for "0xE000ED0C"
+		// // Original question http://forum.pjrc.com/threads/24304-_reboot_Teensyduino%28%29-vs-_restart_Teensyduino%28%29?p=35981#post35981
 		
-		//give time for any USB activity to finish
-		delay(250);
+		// //give time for any USB activity to finish
+		// delay(250);
 
-		// Should restart Teensy 3, will also disconnect USB during restart
-		// 0000101111110100000000000000100
-		// Assert [2]SYSRESETREQ
-		*(uint32_t *)0xE00EDC0C=0x5FA0004;
+		// // Should restart Teensy 3, will also disconnect USB during restart
+		// // 0000101111110100000000000000100
+		// // Assert [2]SYSRESETREQ
+		// *(uint32_t *)0xE00EDC0C=0x5FA0004;
 
 		break;
 		case LRESET_TCP:
