@@ -22,18 +22,20 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        
+      - run: ls
 
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.2.1
         with:
           # Path to Doxyfile
-          doxyfile-path: ../../LabVIEW/vi.lib/LINXx/Firmware/Doxyfile
+          doxyfile-path: LabVIEW/vi.lib/LINXx/Firmware/Doxyfile
           # Working directory
-          working-directory: ../../LabVIEW/vi.lib/LINXx/Firmware
+          working-directory: LabVIEW/vi.lib/LINXx/Firmware
 
 
       - name: GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2.2.0
         with:
           # Build directory to deploy
-          build_dir: ../../docs/html
+          build_dir: ./docs/html
