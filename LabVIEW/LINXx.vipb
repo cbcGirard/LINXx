@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="2020.1" Created_Date="2020-12-23 22:48:42" Modified_Date="2021-01-07 11:41:01" Creator="chris" Comments="" ID="b6c899c7c663fea5cee07a55f0f7268c">
+<VI_Package_Builder_Settings Version="2020.1" Created_Date="2020-12-23 22:48:42" Modified_Date="2021-01-07 21:51:49" Creator="chris" Comments="" ID="384edd9f232043ba1b1df110bd670006">
   <Library_General_Settings>
     <Package_File_Name>CBC_Girard_lib_LINXx</Package_File_Name>
-    <Library_Version>0.1.0.12</Library_Version>
+    <Library_Version>0.1.0.13</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\LV_package</Library_Output_Folder>
@@ -282,7 +282,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\Utility</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>D5E0F7524197012F0628C2DCB7D398BB</GUID>
+      <GUID>45E186829FD1C8E36B2FE68AEFCEE279</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>0</Parent_Palette_Index>
@@ -317,7 +317,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\Board-specific\FeatherM0</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>8C5A96DF6ACCEFEF83282063A2D74C78</GUID>
+      <GUID>F8BF58103093D7F4463ED77EB475DEEF</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>0</Parent_Palette_Index>
@@ -380,7 +380,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\Utility\Reset Board.vi</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>C2F3681B009F9DE35AB3CA82FAA88B5B</GUID>
+      <GUID>3FDF8501ABEE6B00C5D10D048038BB00</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>0</Parent_Palette_Index>
@@ -457,7 +457,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\WiFi\Switch to WiFi.vi</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>EF34EF25FD068DA57CDF7930C22CF32C</GUID>
+      <GUID>D573F1300473968105663B0B54646C19</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>1</Parent_Palette_Index>
@@ -492,7 +492,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\Board-specific\FeatherM0\Interpret WiFi101 status.vi</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>4120A45CABFA0B72F97B33F9A1BC64DA</GUID>
+      <GUID>9AE67EED0E9748E62181D005C4665605</GUID>
     </Functions_Palette_Data>
     <Functions_Palette_Data>
       <Parent_Palette_Index>3</Parent_Palette_Index>
@@ -541,7 +541,7 @@ Upcoming functionality:
         <Path>vi.lib\LINXx\Public\WiFi\Helpers\To TCP Config.vi</Path>
         <VI_Title/>
       </Items_Data>
-      <GUID>D6F82460BB6EA055C07F6C31A3C35FAC</GUID>
+      <GUID>8B9BCBCFA0AF9A6C4356ECC19F81B918</GUID>
     </Functions_Palette_Data>
   </Library_Palette_Definition>
 </VI_Package_Builder_Settings>
