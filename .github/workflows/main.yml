@@ -29,9 +29,9 @@ jobs:
         uses: mattnotmitt/doxygen-action@v1.2.1
         with:
           # Path to Doxyfile
-          doxyfile-path: ./LabVIEW/vi.lib/LINXx/Firmware/Doxyfile
+          doxyfile-path: LabVIEW/vi.lib/LINXx/Firmware/Doxyfile
           # Working directory
-          working-directory: ./LabVIEW/vi.lib/LINXx/Firmware
+          working-directory: LabVIEW/vi.lib/LINXx/Firmware
 
       - run: ls ./docs/html
       - run: find Doxyfile
